@@ -10,7 +10,7 @@
 $PO = ""
 
 # GET LOCAL COMPUTER DETAILS
-# TO DO: USE MODERN METHOD instead of WmiObject
+# TO DO: Use modern method instead of WmiObject
 $ComputerName = (Get-WmiObject -Class Win32_ComputerSystem -Property Name).Name
 $SerialNumber = (Get-WmiObject -class win32_bios).SerialNumber
 $ADObject = Get-ADComputer -Identity $ComputerName -Property Description
@@ -19,9 +19,8 @@ $a = Get-Date
 # $b = $a.ToShortDateString()
 $b = "1/1/2020"
 $c = $a.ToShortTimeString()
-$d = Get-WmiObject -computername $ComputerName Win32_Computersystem | Select -Expand
-model
- $e = $SerialNumber
+$d = Get-WmiObject -computername $ComputerName Win32_Computersystem | Select -Expand model
+$e = $SerialNumber
 
 # if ($d -eq $null) {$d = '0000'}
 # $e = $d -replace '\D+(\d+)\D+','$1'
@@ -30,5 +29,5 @@ $Description = "MD: $d; SN: $e; PO: $PO; $b"
 
 $TF = [string]::IsNullOrEmpty($ADObject.Description)
 
-# IF FALSE or EMPTY then add description, else do nothing
+# IF FALSE OR EMPTY THEN ADD DESCRIPTION, ELSE DO NOTHING
 If($TF) {Set-ADComputer $env:COMPUTERNAME -Description "$Description"} else {}
